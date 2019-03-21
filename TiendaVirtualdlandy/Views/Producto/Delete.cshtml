@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Eliminar Producto</h2>
+
+@model TiendaVirtualdlandy.Models.Producto
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Delete</title>
+</head>
+<body>
+    <h4>Esta seguro que desea eliminar este producto?</h4>
+    <div>        
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                <label for="inputDescripcion" class="col-sm-2 col-form-label">Descripción</label>
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.descripcion)
+            </dd>
+
+            <dt>
+                <label for="inputPrecio" class="col-sm-2 col-form-label">Precio</label>
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.precio)
+            </dd>
+
+            <dt>
+                <label for="inputStock" class="col-sm-2 col-form-label">Stock</label>
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.stock)
+            </dd>
+
+            <dt>
+                <label for="inputCategoria" class="col-sm-2 col-form-label">Categoría</label>
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Categoria_Id)
+            </dd>
+
+            <dt>
+                <label for="inputCategoria" class="col-sm-2 col-form-label">Imagen</label>
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.imagen)
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Aceptar" class="btn btn-default" /> |
+                @Html.ActionLink("Regresar", "Index")
+            </div>
+        }
+    </div>
+</body>
+</html>
+

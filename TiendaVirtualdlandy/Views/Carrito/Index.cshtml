@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "Carrito";
+}
+@model IEnumerable<TiendaVirtualdlandy.Models.Producto>
+
+<h2>Carrito de Compras</h2>
+
+<table class="table table-responsive table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Descripcion</th>
+            <th>Cantidad</th>
+            <th>Stock</th>
+            <th>Precio</th>
+            <th>Subtotal</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{ double total = 0;}
+        @{ int stockTemporal = 0;}
+
+            @if (Session["carrito"] != null)
+            {
+                foreach (var item in Session["carrito"] as List<TiendaVirtualdlandy.Models.CarritoItem>)
+                {
+                    total += (double)(item.Cantidad * item.Producto.precio);
+                    stockTemporal = item.Producto.stock - item.Cantidad;
+                   
+                    <tr>
+                        <td>@item.Producto.Id</td>
+                        <td>@item.Producto.descripcion</td>
+                        <td>@item.Cantidad</td>
+                        <td>@stockTemporal</td>
+                        <td>@string.Format("{0:C}", item.Producto.precio)</td>
+                        <td>@String.Format("{0:C}", (item.Cantidad * item.Producto.precio))</td>
+                        <td>@Html.ActionLink("Eliminar", "Delete", "Carrito", new { Id = item.Producto.Id }, null)</td>
+                    </tr>
+                }
+            }
+        </tbody>
+</table>
+
+<h4><strong>Total a Pagar:</strong>  @String.Format("{0:C}", (total) + (total * 0.21))</h4>
+
+@Html.ActionLink("+ Productos", "Index", "Producto", new { stockTemporal }, null) | @Html.ActionLink("Terminar Compra", "FinishCart", "Carrito", new { stockTemporal }, null)

@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "Create";
+}
+@model TiendaVirtualdlandy.Models.Producto
+
+<h2>Crear Producto </h2>
+
+@using (Html.BeginForm("Create", "Producto", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <hr />
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            <label for="inputImagen" class="col-sm-2 col-form-label">Imagen</label>
+            <div class="col-md-10">
+                <input type="file" name="ImageFile" required>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="inputDescripcion" class="col-sm-2 col-form-label">Descripción</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="inputPrecio" class="col-sm-2 col-form-label">Precio</label>
+            <div class="col-sm-10">
+                @Html.EditorFor(model => model.precio, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.precio, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="inputStock" class="col-sm-2 col-form-label">Stock</label>
+            <div class="col-sm-10">
+                @Html.EditorFor(model => model.stock, new { htmlAttributes = new { @class = "form-control", min = 0 } })
+                @Html.ValidationMessageFor(model => model.stock, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="inputCategoria" class="col-sm-2 col-form-label">Categoría</label>
+            <div class="col-sm-10">
+                @Html.EditorFor(model => model.Categoria_Id, new { htmlAttributes = new { @class = "form-control", min = 1, max = 3 } })
+                @Html.ValidationMessageFor(model => model.Categoria_Id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Regresar", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

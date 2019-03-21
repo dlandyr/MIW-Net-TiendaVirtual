@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "Pedidos";
+}
+@model IEnumerable<TiendaVirtualdlandy.Models.Pedido>
+<h2>Pedidos</h2>
+@if (Model != null)
+{
+    <table class="table table-responsive table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Cliente</th>
+                <th>Fecha</th>
+                <th>Subtotal</th>
+                <th>Iva(21%)</th>
+                <th>Total</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Cliente.nombre @item.Cliente.apellidos </td>
+                <td>@item.fecha</td>
+                <td>@String.Format("{0:C}", item.subtotal)</td>
+                <td>@String.Format("{0:C}", item.iva)</td>
+                <td>@String.Format("{0:C}", item.total)</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+

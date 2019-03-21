@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="TiendaVirtual" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="TiendaVirtualContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Categorias" EntityType="TiendaVirtual.Categoria" />
+    <EntitySet Name="Clientes" EntityType="TiendaVirtual.Cliente" />
+    <EntitySet Name="PedidoItems" EntityType="TiendaVirtual.PedidoItem" />
+    <EntitySet Name="Pedidos" EntityType="TiendaVirtual.Pedido" />
+    <EntitySet Name="Productos" EntityType="TiendaVirtual.Producto" />
+    <AssociationSet Name="FK_CategoriaProducto" Association="TiendaVirtual.FK_CategoriaProducto">
+      <End Role="Categoria" EntitySet="Categorias" />
+      <End Role="Producto" EntitySet="Productos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ClientePedido" Association="TiendaVirtual.FK_ClientePedido">
+      <End Role="Cliente" EntitySet="Clientes" />
+      <End Role="Pedido" EntitySet="Pedidos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PedidoPedidoItem" Association="TiendaVirtual.FK_PedidoPedidoItem">
+      <End Role="Pedido" EntitySet="Pedidos" />
+      <End Role="PedidoItem" EntitySet="PedidoItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductoPedidoItem" Association="TiendaVirtual.FK_ProductoPedidoItem">
+      <End Role="Producto" EntitySet="Productos" />
+      <End Role="PedidoItem" EntitySet="PedidoItems" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Categoria">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Cliente">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="apellidos" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="direccion" Type="String" Nullable="false" MaxLength="350" FixedLength="false" Unicode="true" />
+    <Property Name="telefono" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+    <Property Name="username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="PedidoItem">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="cantidad" Type="Int32" Nullable="false" />
+    <Property Name="total" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="Pedido_Id" Type="Int32" Nullable="false" />
+    <Property Name="Producto_Id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Pedido" Relationship="TiendaVirtual.FK_PedidoPedidoItem" FromRole="PedidoItem" ToRole="Pedido" />
+    <NavigationProperty Name="Producto" Relationship="TiendaVirtual.FK_ProductoPedidoItem" FromRole="PedidoItem" ToRole="Producto" />
+  </EntityType>
+  <EntityType Name="Pedido">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="subtotal" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="iva" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="total" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="Cliente_Id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Cliente" Relationship="TiendaVirtual.FK_ClientePedido" FromRole="Pedido" ToRole="Cliente" />
+  </EntityType>
+  <EntityType Name="Producto">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="stock" Type="Int32" Nullable="false" />
+    <Property Name="precio" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="imagen" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Categoria_Id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Categoria" Relationship="TiendaVirtual.FK_CategoriaProducto" FromRole="Producto" ToRole="Categoria" />
+  </EntityType>
+  <Association Name="FK_CategoriaProducto">
+    <End Type="TiendaVirtual.Categoria" Role="Categoria" Multiplicity="1" />
+    <End Type="TiendaVirtual.Producto" Role="Producto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categoria">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Producto">
+        <PropertyRef Name="Categoria_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ClientePedido">
+    <End Type="TiendaVirtual.Cliente" Role="Cliente" Multiplicity="1" />
+    <End Type="TiendaVirtual.Pedido" Role="Pedido" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cliente">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Pedido">
+        <PropertyRef Name="Cliente_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PedidoPedidoItem">
+    <End Type="TiendaVirtual.Pedido" Role="Pedido" Multiplicity="1" />
+    <End Type="TiendaVirtual.PedidoItem" Role="PedidoItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pedido">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PedidoItem">
+        <PropertyRef Name="Pedido_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductoPedidoItem">
+    <End Type="TiendaVirtual.Producto" Role="Producto" Multiplicity="1" />
+    <End Type="TiendaVirtual.PedidoItem" Role="PedidoItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Producto">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PedidoItem">
+        <PropertyRef Name="Producto_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
